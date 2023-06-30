@@ -1,0 +1,340 @@
+Q1.  WHAT IS EXCEPTION IN PYTHON ? WRITE THE DIFFERENT BETWEEN EXCEPTIONS AND SYNTAX ERRORS ?
+
+
+ANSWER :- An Exception is an error that happens during the execution of a program.
+An exception is a Python object that represents an error.
+
+Differences between exceptions and syntax errors:
+
+Syntax Errors:
+
+Syntax errors occur when there is a mistake in the structure or syntax of the Python code.
+These errors are usually detected by the Python interpreter during the parsing phase,
+before the program is executed.
+Syntax errors prevent the program from running and must be fixed before execution.
+
+Examples of syntax errors include missing parentheses, misspelled keywords, or incorrect indentation.
+
+
+Exceptions:
+
+Exceptions occur during the execution of a program when an error or exceptional condition arises.
+Exceptions can be anticipated and handled by the programmer, allowing the program to respond gracefully to errors.
+Exceptions can be raised explicitly by the programmer or raised automatically by the Python interpreter when certain errors occur.
+
+Examples of exceptions include division by zero (ZeroDivisionError), accessing a nonexistent File (FileNotFoundError),
+or trying to access 
+a variable that is not defined (NameError).
+Exceptions can be caught and handled using try-except blocks, which allow the program to continue
+executing even if an exception occurs.
+Exceptions can also propagate up the call stack if they are not caught, potentially causing the program
+to terminate if they are not handled.
+In summary, syntax errors are related to mistakes in the code structure and prevent the program from running,
+while exceptions are raised during
+program execution and can be handled to gracefully handle errors and exceptional conditions.
+
+
+
+
+Q2. WHAT HAPPENS WHEN AN EXCEPTION IS NOT HANDLED ? EXPLAIN WITH AN EXAMPLE ?
+
+
+
+ANSWER :-  When an exception is not handled in Python, it leads to the program terminating abruptly
+and an error message being displayed.
+Let's consider an example to understand what happens when an exception is not handled:
+
+
+def read_file(filename):
+    file = open(filename, 'r')
+    contents = file.read()
+    file.close()
+    return contents
+
+# Calling the function with a non-existent file
+file_contents = read_file('nonexistent_file.txt')
+print(file_contents)
+
+In this example, the read_file function attempts to open a file and read its contents. However, if the file specified
+by filename does not exist, it will raise a FileNotFoundError exception.
+If this exception is not handled within a try-except block, the Python interpreter will raise the exception 
+and display an error message, like this:
+    
+    ANOTHER EXAMPLE :--
+
+    
+def read_file(filename):
+    try:
+        file = open(filename, 'r')
+        contents = file.read()
+        file.close()
+        return contents
+    except FileNotFoundError:
+        print(f"Error: File '{filename}' not found.")
+        return None
+
+# Calling the function with a non-existent file
+file_contents = read_file('nonexistent_file.txt')
+print(file_contents)
+
+
+In this modified version, the try block encloses the code that may raise an exception. If a FileNotFoundError
+occurs, the exception is caught in the except block,
+allowing you to handle it gracefully. Here, a custom error message is printed, and None is returned instead 
+of causing a program crash.
+    
+
+By handling exceptions, you can control how your program responds to exceptional conditions, provide appropriate
+error messages, and ensure the program continues running without abrupt termination.
+
+
+
+
+
+Q3 :- WHICH PYTHON STATEMENTS ARE USED TO CATCH AND HANDLE EXCEPTIONS ? EXPLAIN WITH AND EXAMPLE ?
+
+
+
+ANSWER :- In Python, the try-except statement is used to catch and handle exceptions. The try block contains the code
+that might raise an exception, and the except block is where you specify how to handle the exception if it occurs.
+Here's an example to illustrate the usage of try-except:
+
+
+def divide_numbers(a, b):
+    try:
+        result = a / b
+        return result
+    except ZeroDivisionError:
+        print("Error: Division by zero is not allowed.")
+        return None
+
+# Calling the function with different arguments
+print(divide_numbers(10, 2))  # Output: 5.0
+print(divide_numbers(10, 0))  # Output: Error: Division by zero is not allowed.
+
+
+In this example, the divide_numbers function attempts to divide a by b.
+The try block encloses this division operation, which may raise a ZeroDivisionError if the value of b is 0.
+
+If a ZeroDivisionError occurs, the exception is caught in the except block. In this case, a custom error
+message is printed, indicating that division by zero is not allowed. The function then returns None to 
+indicate an error condition.
+
+When calling the divide_numbers function with different arguments, you can observe how the exception 
+is handled. If the division is possible (e.g., dividing 10 by 2), the result is returned and printed. 
+If a division by zero is attempted, the exception is caught, and the custom error message is printed
+instead of the program terminating abruptly.
+
+
+By using try-except blocks, you can handle specific exceptions and provide appropriate error handling logic.
+This allows your program to gracefully handle exceptional conditions and continue execution, rather
+than crashing due to unhandled exceptions.
+
+
+
+
+Q4 :- EXPLAIN WITH AN EXAMPLE ?
+TRY AND ELSE
+FINALLY
+RAISE
+
+
+ANSWER :-  Certainly! Let's explore the concepts of try-else, finally, and raise in Python with examples.
+
+try-else:
+    
+The try-else statement is used when you want to specify a block of code to be executed if no exceptions are raised
+in the try block. Here's an example:
+
+
+def divide_numbers(a, b):
+    try:
+        result = a / b
+    except ZeroDivisionError:
+        print("Error: Division by zero is not allowed.")
+    else:
+        print("Division successful. Result:", result)
+
+# Calling the function with different arguments
+divide_numbers(10, 2)  # Output: Division successful. Result: 5.0
+divide_numbers(10, 0)  # Output: Error: Division by zero is not allowed.
+
+
+In this example, the try block attempts to divide a by b. If a ZeroDivisionError occurs, the exception is caught
+in the except block and an error message is printed. However, if no exception is raised, the else block is executed,
+indicating that the division was successful and printing the result.
+
+
+finally:
+The finally statement is used to define a block of code that will be executed regardless of whether an 
+exception occurs or not. It is commonly used for cleanup operations. Here's an example:
+
+def open_and_read_file(filename):
+    try:
+        file = open(filename, 'r')
+        contents = file.read()
+        return contents
+    except FileNotFoundError:
+        print(f"Error: File '{filename}' not found.")
+        return None
+    finally:
+        if 'file' in locals():
+            file.close()
+
+# Calling the function with a file that exists
+file_contents = open_and_read_file('existing_file.txt')
+print(file_contents)
+
+# Calling the function with a non-existent file
+file_contents = open_and_read_file('nonexistent_file.txt')
+print(file_contents)
+
+In this example, the try block attempts to open and read the contents of a file specified by filename.
+If a FileNotFoundError occurs, the exception is caught in the except block and an error message is printed.
+Regardless of whether an exception is raised or not, the finally block is executed, closing the file.
+
+raise:
+The raise statement is used to manually raise an exception in Python. EXAMPLE :
+
+    def calculate_factorial(n):
+    if n < 0:
+        raise ValueError("Factorial is not defined for negative numbers.")
+    factorial = 1
+    for i in range(1, n+1):
+        factorial *= i
+    return factorial
+
+# Calling the function with different arguments
+print(calculate_factorial(5))  # Output: 120
+print(calculate_factorial(-2)) # Output: ValueError: Factorial is not defined for negative numbers.
+
+
+In this example, the calculate_factorial function calculates the factorial of a given number n. 
+Before performing the calculation, it checks if n is negative. If it is, a ValueError is raised using the 
+raise statement, with a custom error message. If n is non-negative, the factorial is calculated and returned.
+
+Using raise, WE can create an own exceptions to handle specific error conditions in your program.
+
+These are some of the features in Python that allow you to handle exceptions, control program flow, and raise custom
+exceptions when needed.
+
+
+
+Q5 :- WHAT ARE CUSTOM EXCEPTIONS IN PYTHON ? WHY DO NEED CUSTOM EXCEPTION ? EXPLAIN WITH AN EXAMPLE ?
+
+
+
+ANSWER :-  
+Custom exceptions in Python are user-defined exception classes that inherit from the base Exception class or its subclasses. 
+They allow you to define your own specific exception types to handle unique error conditions in your code.
+
+
+The need for custom exceptions arises when you encounter situations that are not adequately covered by the built-in exception
+classes. By creating custom exceptions, you can provide more specific information about the error, add additional attributes or 
+methods to the exception class, and handle the exceptional conditions in a tailored manner. Custom exceptions enhance 
+the clarity and maintainability of your code by signaling and handling specific error scenarios.
+
+
+Here's an example that demonstrates the use of custom exceptions:
+
+class InsufficientFundsError(Exception):
+    def __init__(self, amount, balance):
+        self.amount = amount
+        self.balance = balance
+
+    def __str__(self):
+        return f"Insufficient funds. Amount: {self.amount}, Balance: {self.balance}"
+
+
+def withdraw(balance, amount):
+    if amount > balance:
+        raise InsufficientFundsError(amount, balance)
+    else:
+        balance -= amount
+        print("Withdrawal successful.")
+
+
+# Using the custom exception in code
+balance = 1000
+withdraw_amount = 1500
+
+try:
+    withdraw(balance, withdraw_amount)
+except InsufficientFundsError as e:
+    print(e)
+
+    
+In this example, we define a custom exception class called InsufficientFundsError, which inherits from the base 
+Exception class. The custom exception takes two parameters: amount (the withdrawal amount) and balance (the account balance).
+    
+    
+The withdraw function simulates a withdrawal operation from an account. If the withdrawal amount exceeds
+the account balance, it raises the InsufficientFundsError with the appropriate arguments.
+    
+In the main code, we attempt to withdraw an amount that exceeds the account balance. The withdraw function raises the 
+InsufficientFundsError, and we catch it in the except block. The custom exception object is then printed, displaying
+the amount and balance in the error message.
+    
+    
+    
+By using custom exceptions, you can handle specific error conditions more precisely and provide meaningful error messages.
+They allow you to encapsulate and communicate exceptional scenarios effectively, making your code more robust and maintainable.
+    
+    
+    
+
+    
+    
+Q6. CREATE A CUSTOM EXCEPTION CLASS ? USED THIS CLASS TO HANDLE THE EXCEPTION ?
+
+
+ANSWER :- 
+Certainly! Here's an example of creating a custom exception class and using it to handle an exception:
+
+class InvalidInputError(Exception):
+    def __init__(self, input_value):
+        self.input_value = input_value
+
+    def __str__(self):
+        return f"Invalid input: {self.input_value}"
+
+
+def process_input(value):
+    if not isinstance(value, int):
+        raise InvalidInputError(value)
+    else:
+        print("Processing input:", value)
+
+
+# Using the custom exception in code
+input_value = "abc"
+
+try:
+    process_input(input_value)
+except InvalidInputError as e:
+    print(e)
+
+    
+    
+In this example, we define a custom exception class called InvalidInputError, which inherits from the base
+Exception class. The custom exception takes the input_value as a parameter in its constructor.
+              
+    
+    
+The process_input function simulates processing an input value. If the input value is not an integer, it raises the
+InvalidInputError with the given value.
+    
+In the main code, we attempt to process an input value that is a string. The process_input function raises
+the InvalidInputError,
+and we catch it in the except block. The custom exception object is then printed, displaying the invalid input value.
+
+    
+By using the custom exception class InvalidInputError, you can handle situations where the input does not meet 
+certain criteria or is invalid in your application. Custom exceptions help in providing specific information
+about the error and allow you to handle such exceptional conditions appropriately.
+
+
+
+
+
+
